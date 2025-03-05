@@ -8,14 +8,14 @@ import { FaChevronDown } from "react-icons/fa";
 export default function FAQPage() {
   const faqs = [
     {
-      question: "What is StudyAI?",
+      question: "What is SwiftPrep?",
       answer:
-        "StudyAI is a revolutionary new platform that allows you to upload your course materials and create interactive study sets. You can study with an AI tutor, create flashcards, generate notes, take practice tests, and more.",
+        "SwiftPrep is a revolutionary new platform that allows you to upload your course materials and create interactive study sets. You can study with an AI tutor, create flashcards, generate notes, take practice tests, and more.",
     },
     {
-      question: "Can I upload my whole class lecture to StudyAI?",
+      question: "Can I upload my whole class lecture to SwiftPrep?",
       answer:
-        "Yes, you can upload full lectures, and StudyAI will process them into study materials.",
+        "Yes, you can upload full lectures, and SwiftPrep will process them into study materials.",
     },
     {
       question: "What types of course material can I upload?",
@@ -61,7 +61,7 @@ export default function FAQPage() {
           Common Questions
         </h2>
         <p className="text-center text-gray-300 mt-2 mb-10">
-          Find answers to frequently asked questions about StudyAI.
+          Find answers to frequently asked questions about SwiftPrep.
         </p>
 
         <div className="mt-10 space-y-4">
