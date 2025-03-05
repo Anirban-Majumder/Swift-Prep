@@ -11,7 +11,6 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
   const [sessionData, setSessionData] = useState<SessionData>({
     session: null,
     profile: null,
-    medicines: [],
   });
   const supabase = createClient();
 
@@ -19,7 +18,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, newSession) => {
         if (event === 'SIGNED_OUT' || !newSession) {
-          setSessionData({ session: null, profile: null, medicines: [] });
+          setSessionData({ session: null, profile: null });
         } else {
           setSessionData(prev => ({
             ...prev,
@@ -37,10 +36,11 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
 
       const fetchData = async () => {
         try {
-          const [profileResponse, medicinesResponse] = await Promise.all([
-            supabase.from('profiles_swiftprep').select('*').eq('user_id', userId).single(),
-            supabase.from('medicines').select('*').eq('user_id', userId)
-          ]);
+          const profileResponse = await supabase
+            .from('profiles_swiftprep')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
 
           if (profileResponse.error) {
             console.error('Error fetching profile:', profileResponse.error);
@@ -48,15 +48,6 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
             setSessionData(prev => ({
               ...prev,
               profile: profileResponse.data,
-            }));
-          }
-
-          if (medicinesResponse.error) {
-            console.error('Error fetching medicines:', medicinesResponse.error);
-          } else {
-            setSessionData(prev => ({
-              ...prev,
-              medicines: medicinesResponse.data,
             }));
           }
         } catch (error) {
