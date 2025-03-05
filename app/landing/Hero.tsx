@@ -16,12 +16,11 @@ const Hero = () => {
     className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen text-black overflow-hidden font-inter"
       style={{
         backgroundImage: 'url("/herobg.jpg")',
-        backgroundSize: "cover", // Ensures the image covers the entire section
+        backgroundSize: "cover", 
         backgroundPosition: "center",
-        imageRendering: "crisp-edges", // Ensures the image remains crisp
+        imageRendering: "crisp-edges", 
       }}
     >
-      {/* Particles Background */}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -73,7 +72,6 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full z-0"
       />
 
-      {/* Left Side - Text */}
       <div className="relative z-10 max-w-2xl">
         <motion.h1
           className="text-7xl md:text-7xl font-bold leading-tight text-center md:text-left font-roboto"
@@ -143,14 +141,12 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* Right Side - Image with Effects */}
       <motion.div
         className="relative z-10 mt-12 md:mt-0 max-w-[500px] flex justify-center items-center"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
       >
-        {/* Blurred Glow Effect */}
         <motion.div
           className="absolute -z-10 w-[90%] h-[90%] bg-cyan-400 blur-[70px] opacity-40"
           animate={{
