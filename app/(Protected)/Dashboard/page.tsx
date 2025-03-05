@@ -14,6 +14,7 @@ export default function Dashboard() {
   
   const { sessionData } = useContext(SessionContext);
   
+  
   // File drop handler
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
@@ -39,87 +40,40 @@ export default function Dashboard() {
       setError("Please select a PDF file first");
       return;
     }
+
+    if (!sessionData.session?.user.id) {
+      setError("You must be logged in to process a syllabus");
+      return;
+    }
   
-    
     setError("");
     setIsProcessing(true);
     
     try {
-      // Convert PDF to base64
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
+      // Create form data to send to API
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("userId", sessionData.session.user.id);
+      formData.append("fileName", fileName);
       
-      reader.onload = async () => {
-        const base64String = reader.result as string;
-        // Remove data URL prefix (data:application/pdf;base64,)
-        const base64Data = base64String.split(',')[1];
-        
-        // Call ConvertAPI to extract text
-        const response = await fetch('https://v2.convertapi.com/convert/pdf/to/txt', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + process.env.NEXT_PUBLIC_CONVERT_API_SECRET,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            Parameters: [
-              {
-                Name: "File",
-                FileValue: {
-                  Name: fileName,
-                  Data: base64Data
-                }
-              }
-            ]
-          })
-        });
-        
-        if (!response.ok) {
-          throw new Error(`PDF conversion failed: ${response.statusText}`);
-        }
-        
-        const result = await response.json();
-        const textContent = atob(result.Files[0].FileData);
-        console.log("Extracted text:", textContent);
-        await saveSyllabus(textContent);
-        
-      };
-    } catch (err: any) {
-      console.error("Error processing PDF:", err);
-      setError(err.message || "Failed to process PDF");
-      setIsProcessing(false);
-    }
-  };
-  
-  const saveSyllabus = async (textContent: string) => {
-    try {
-      if (!sessionData.session?.user.id) {
-        throw new Error("You must be logged in to save a syllabus");
-      }
-      
+      // Send to our API endpoint
       const response = await fetch('/api/savesyllabus', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: sessionData.session.user.id,
-          content: textContent,
-        })
+        body: formData,
       });
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `Error: ${response.status}`);
-      }
-      
       const data = await response.json();
+      console.log("Response data:", data.data);
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to process PDF");
+      }
       
       setSuccess("Syllabus uploaded and processed successfully!");
       setIsProcessing(false);
+      
     } catch (err: any) {
-      console.error("Error saving syllabus:", err);
-      setError(err.message || "Failed to save syllabus");
+      console.error("Error processing PDF:", err);
+      setError(err.message || "Failed to process PDF");
       setIsProcessing(false);
     }
   };
