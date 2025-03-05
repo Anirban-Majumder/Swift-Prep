@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font Imports */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Anton&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Anton&display=swap");
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 @layer base {
@@ -93,4 +103,117 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* ⚡ Neon Glow for Icons */
+.icon-glow {
+  filter: drop-shadow(0px 0px 15px rgba(0, 255, 255, 0.9));
+}
+
+/* Background Glow Effect */
+.bg-neon-glow {
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.4) 10%, transparent 80%);
+  transition: background 0.5s ease-in-out;
+}
+
+.bg-neon-glow:hover {
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.5) 10%, transparent 80%);
+}
+
+/* Glitch Effect for Title */
+.glitch {
+  position: relative;
+  text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8), -2px -2px 10px rgba(255, 0, 255, 0.8);
+  animation: glitch 1.5s infinite alternate;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8), -2px -2px 10px rgba(255, 0, 255, 0.8);
+  }
+  100% {
+    text-shadow: -2px -2px 10px rgba(0, 255, 255, 0.8), 2px 2px 10px rgba(255, 0, 255, 0.8);
+  }
+}
+
+/* Wave Animation */
+@keyframes wave {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+
+.bg-wave {
+  background-image: url("/wave.svg");
+  animation: wave 5s infinite alternate ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+/* Glassmorphism Effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0px 0px 30px rgba(0, 255, 255, 0.7);
+}
+
+/* Smooth Fade In Animation */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.fade-in:nth-child(1) { animation-delay: 0.3s; }
+.fade-in:nth-child(2) { animation-delay: 0.5s; }
+.fade-in:nth-child(3) { animation-delay: 0.7s; }
+
+/* Background Grid */
+.bg-futuristic-grid {
+  background: url("/futuristic-grid.svg");
+  opacity: 0.3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  animation: grid-move 10s linear infinite;
+}
+
+@keyframes grid-move {
+  from { transform: translateY(0); }
+  to { transform: translateY(20px); }
+}
+
+/* Dark Futuristic Background */
+.bg-dark-tech {
+  background: radial-gradient(circle, rgba(10, 10, 20, 0.95) 10%, #050505 100%);
+  color: #ffffff;
+}
+@layer base {
+  :root {
+    --background: #050505;
+    --foreground: #ffffff;
+    --accent: rgba(0, 255, 255, 0.7);
+    --primary: rgba(0, 0, 0, 0.9);
+  }
+}
+
+:root {
+  --font-kagitingan: 'Kagitingan', sans-serif;
 }

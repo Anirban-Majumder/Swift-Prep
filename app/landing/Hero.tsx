@@ -12,21 +12,37 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen bg-gradient-to-br from-[#0c1022] via-[#1a1a40] to-[#0c1022] text-white overflow-hidden">
+    <section
+    className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen text-black overflow-hidden font-inter"
+      style={{
+        backgroundImage: 'url("/herobg.jpg")',
+        backgroundSize: "cover", // Ensures the image covers the entire section
+        backgroundPosition: "center",
+        imageRendering: "crisp-edges", // Ensures the image remains crisp
+      }}
+    >
       {/* Particles Background */}
       <Particles
         id="tsparticles"
-       
+        init={particlesInit}
         options={{
           fullScreen: { enable: false },
           background: { color: "transparent" },
           particles: {
-            number: { value: 150, density: { enable: true,  } },
+            number: { value: 150, density: { enable: true, value_area: 1000 } },
             color: { value: ["#00FFFF", "#FF00FF", "#FFA500"] },
             shape: { type: "star" },
-
-            opacity: { value: 0.8, animation: { enable: true, speed: 0.5,  sync: false } },
-            size: { value: 4 },
+            opacity: {
+              value: 0.8,
+              random: true,
+              animation: {
+                enable: true,
+                speed: 0.5,
+                minimumValue: 0.2,
+                sync: false,
+              },
+            },
+            size: { value: 4, random: true },
             move: {
               enable: true,
               speed: 2,
@@ -42,7 +58,6 @@ const Hero = () => {
               opacity: 0.4,
               width: 1.5,
             },
-
           },
           interactivity: {
             events: {
@@ -61,12 +76,15 @@ const Hero = () => {
       {/* Left Side - Text */}
       <div className="relative z-10 max-w-2xl">
         <motion.h1
-          className="text-5xl md:text-7xl font-extrabold leading-tight text-center md:text-left"
+          className="text-7xl md:text-7xl font-bold leading-tight text-center md:text-left font-roboto"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 2, ease: "easeOut" }}
         >
-          <span className="text-white inline-block min-w-[190px] text-left">
+          <span
+            className="text-white inline-block min-w-[190px] text-left"
+            style={{ fontFamily: "'Bebas Neue', cursive" }}
+          >
             <Typewriter
               words={["Innovate", "Transform", "Personalize", "Empower"]}
               loop
@@ -77,19 +95,33 @@ const Hero = () => {
               delaySpeed={2500}
             />
           </span>
-          Your Learning <br />
-          <span className="bg-gradient-to-r from-cyan-400 to-pink-400 text-transparent bg-clip-text">
+          <span
+            className="text-white"
+            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          >
+            Your Learning
+          </span>{" "}
+          <br />
+          <span
+            className="bg-gradient-to-r from-cyan-500 to-pink-600 text-transparent bg-clip-text"
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              color: "transparent",
+            }}
+          >
             Experience
           </span>
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-lg text-gray-300 text-center md:text-left"
+          className="mt-6 text-3xl text-center md:text-left"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
+          style={{ color: "white", fontFamily: "'Bebas Neue', sans-serif", WebkitTextStroke: "1px #fff", }}
         >
-          AI-driven, personalized study tools to revolutionize the way you learn.
+          AI-driven, personalized study tools to revolutionize the way you
+          learn.
         </motion.p>
 
         <motion.div
@@ -99,12 +131,12 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.5 }}
         >
           <Link href="/creategoal">
-            <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition duration-300">
+            <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 font-roboto">
               Get Started
             </button>
           </Link>
           <Link href="#features">
-            <button className="border border-white text-white px-8 py-4 rounded-full text-lg font-medium bg-opacity-30 backdrop-blur-lg hover:bg-white hover:text-blue-600 transition duration-300">
+            <button className="border border-black text-white px-8 py-4 rounded-full text-lg font-medium bg-opacity-30 backdrop-blur-lg hover:bg-white hover:text-blue-600 transition duration-300 font-roboto">
               Learn More
             </button>
           </Link>
@@ -144,8 +176,8 @@ const Hero = () => {
           <Image
             src="/Hero.jpeg"
             alt="Study AI"
-            width={500} // Reduced size
-            height={500}
+            width={600}
+            height={600}
             priority
             className="drop-shadow-lg rounded-lg ring-4 ring-cyan-400 hover:rotate-2 transition-transform duration-300"
           />
