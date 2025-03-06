@@ -6,9 +6,10 @@ import { SessionContext } from '@/lib/supabase/usercontext';
 import { X, Upload, FileText, Loader2, BookmarkPlus, Filter, Eye, Clock, Star } from 'lucide-react';
 import { Profile } from '@/lib/db_types';
 import Footer from "../../landing/footer/page";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
 import { cn } from "@/lib/utils";
+ 
 
 export default function Dashboard() {
   const [file, setFile] = useState<File | null>(null);
@@ -133,6 +134,15 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           ))}
+      </div>
+      {/* Recent Courses Section */}
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-xl font-semibold mb-4">Recent Courses</h2>
+        <p className="text-gray-500">
+          {sessionData.session ? 
+            "Your recently processed syllabi will appear here." : 
+            "Please sign in to view your courses."}
+        </p>
       </div>
       <Footer />
     </div>

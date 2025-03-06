@@ -5,7 +5,7 @@ import FeaturesPage from "./landing/features/page";
 import FAQPage from "./landing/testimonials/page"; 
 import CTASection from "./landing/cta/page";
 import Footer from "./landing/footer/page"; 
-import { CopilotManager } from "@/components/copilot";
+import { CopilotManager } from "./components/copilot";
 
 export default function LandingPage() {
   return (

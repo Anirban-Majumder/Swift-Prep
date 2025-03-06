@@ -22,10 +22,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pharma AI",
+  title: "Swift Prep",
   description: "World's first AI-powered Pharmacy",
   appleWebApp: {
-    title: "Pharma-AI",
+    title: "Swift Prep",
   },
 };
 
@@ -34,27 +34,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
-
-
   return (
-    <html suppressHydrationWarning={true} lang='en'>
+    <html suppressHydrationWarning={true} lang="en">
       <meta name="apple-mobile-web-app-title" content="Pharma-AI" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} background text-foreground h-full flex flex-col justify-between antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SessionProvider>
-          <CopilotKit
-            forwardedParameters={{ temperature: 0.2 }}
-            showDevConsole={false}
-            runtimeUrl="/api/copilotkit">
+            <CopilotKit
+              forwardedParameters={{ temperature: 0.2 }}
+              showDevConsole={false}
+              runtimeUrl="/api/copilotkit"
+            >
               {children}
-              <ToasterProvider/>
-          </CopilotKit>
+              <ToasterProvider />
+            </CopilotKit>
           </SessionProvider>
         </ThemeProvider>
       </body>

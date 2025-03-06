@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Layout } from "@/components/layout";
+import { Layout } from "../components/layout";
 import { useTheme } from 'next-themes';
 
 export default function Terms() {
