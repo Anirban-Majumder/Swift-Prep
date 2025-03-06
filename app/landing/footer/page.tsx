@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-gradient-to-r from-[#000000] via-[#1d1d1d] to-[#1a2b3c] text-gray-400 py-12 text-center relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <p className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-teal-500 to-blue-500 neon-glow">
-          StudyAI
+          Swift Prep
         </p>
         <div className="mt-6 flex justify-center space-x-8">
           <Link
@@ -30,7 +30,7 @@ export default function Footer() {
           </Link>
         </div>
         <p className="mt-8 text-sm text-gray-300">
-          © {new Date().getFullYear()} StudyAI. All rights reserved.
+          © {new Date().getFullYear()} Swift Prep. All rights reserved.
         </p>
       </div>
 
