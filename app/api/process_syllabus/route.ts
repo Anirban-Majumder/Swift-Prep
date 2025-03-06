@@ -209,6 +209,7 @@ export async function POST(request: NextRequest) {
     
     //ts ignore 
     const chatSession = model.startChat({
+      // @ts-ignore
       generationConfig,
       history: [],
     });
