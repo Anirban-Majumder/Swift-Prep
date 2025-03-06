@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Pharma-AI",
-    short_name: "Pharma-AI",
+    name: "Swift Prep",
+    short_name: "Swift Prep",
     description: 'A Progressive Web App built with Next.js',
     start_url: '/',
     display: 'standalone',

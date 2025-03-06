@@ -1,7 +1,7 @@
 'use client';
 
 import { NextPage } from "next";
-import { Layout } from "@/components/layout";
+import { Layout } from "../components/layout";
 
 const PrivacyPolicy: NextPage = () => {
   return (
