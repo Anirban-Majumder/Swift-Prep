@@ -90,7 +90,6 @@ export default function FAQPage() {
         </div>
       </div>
 
-      {/* Glowing background effect */}
       <div className="absolute top-0 left-0 w-full h-full bg-neon-glow transition-all duration-300 z-[-1]" />
     </section>
   );
