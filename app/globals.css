@@ -246,3 +246,6 @@ body::-webkit-scrollbar {
 :root {
   --font-kagitingan: "Kagitingan", sans-serif;
 }
+html {
+  overflow-y: scroll;
+}

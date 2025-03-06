@@ -59,13 +59,21 @@ export default function FAQPage() {
         backgroundImage: 'url("/featurebg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}
     >
       <div className="max-w-5xl mx-auto px-6">
-        <h2 className="text-5xl font-bold text-center text-blue-400 mb-8">
-          COMMON QUESTIONS
-        </h2>
-        <p className="text-2xl text-center text-gray-400 mt-2 mb-10">
+        <div className="flex justify-center">
+          <h2
+            className="text-5xl font-bold text-white mb-8 
+    inline-block bg-black bg-opacity-80 px-4 py-2 rounded-lg shadow-2xl 
+    border-4 border-white"
+          >
+            COMMON QUESTIONS
+          </h2>
+        </div>
+
+        <p className="text-3xl text-center text-white mt-2 mb-10">
           Find answers to frequently asked questions about SwiftPrep.
         </p>
 

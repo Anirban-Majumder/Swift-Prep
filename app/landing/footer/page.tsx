@@ -5,44 +5,39 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer
-      className="bg-gradient-to-r from-[#000000] via-[#1d1d1d] to-[#1a2b3c] text-gray-400 py-12 text-center relative overflow-hidden"
+      className="relative overflow-hidden bg-gradient-to-r from-black via-gray-900 to-[#1a2b3c] text-gray-300 py-14 text-center"
       style={{
         backgroundImage: 'url("/featurebg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-    ><div className="absolute inset-0 backdrop-blur-sm z-0" />
-      <div className="max-w-5xl mx-auto px-6 relative z-10">
-        <p className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-teal-500 to-blue-500 neon-glow">
+    >
+      <div className="absolute inset-0 backdrop-blur-md opacity-80 z-0" />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <p className="text-5xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-400 to-pink-400 neon-glow">
           Swift Prep
         </p>
-        <div className="mt-6 flex justify-center space-x-8">
-          <Link
-            href="/about"
-            className="text-lg font-semibold text-gray-300 hover:text-pink-400 transition duration-300 ease-in-out hover:underline transform hover:scale-110"
-          >
-            ABOUT
-          </Link>
-          <Link
-            href="/privacypolicy"
-            className="text-lg font-semibold text-gray-300 hover:text-pink-400 transition duration-300 ease-in-out hover:underline transform hover:scale-110"
-          >
-            PRIVACY POLICY
-          </Link>
-          <Link
-            href="/contact"
-            className="text-lg font-semibold text-gray-300 hover:text-pink-400 transition duration-300 ease-in-out hover:underline transform hover:scale-110"
-          >
-            CONTACT
-          </Link>
+
+        <div className="mt-6 flex justify-center space-x-10">
+          {["About", "Privacy Policy", "Contact"].map((item, index) => (
+            <Link
+              key={index}
+              href={`/${item.toLowerCase().replace(" ", "")}`}
+              className="relative text-lg font-semibold text-gray-200 transition-all duration-300 ease-in-out hover:text-cyan-400 hover:scale-105 group"
+            >
+              {item}
+              <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+          ))}
         </div>
-        <p className="mt-8 text-lg text-gray-300">
+
+        <p className="mt-8 text-sm text-gray-400">
           © {new Date().getFullYear()} Swift Prep. All rights reserved.
         </p>
       </div>
 
-      
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+      <div className="absolute inset-0 border-t border-gray-700 opacity-40 animate-pulse"></div>
     </footer>
   );
 }

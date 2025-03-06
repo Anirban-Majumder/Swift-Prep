@@ -35,10 +35,7 @@ export default function FeaturesPage() {
 
   return (
     <section id="features" className="relative py-24 bg-black overflow-hidden">
-      {/* Neon Particle Background */}
-      <div
-        className="absolute inset-0 z-0"
-      >
+      <div className="absolute inset-0 z-0">
         {" "}
         <div className="absolute inset-0 bg-black/0.5 backdrop-blur-sm z-0" />
         <Particles
@@ -65,16 +62,14 @@ export default function FeaturesPage() {
         />
       </div>
 
-      {/* Animated Wave Background */}
       <div className="absolute inset-0 bg-wave bg-cover bg-center opacity-20 z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-8">
-        {/* Glitching Title */}
         <motion.h2
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-5xl font-bold text-center text-blue-400 mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400"
+          className="text-5xl font-bold text-center text-blue-400 mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500"
         >
           KEY FEATURES
         </motion.h2>

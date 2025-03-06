@@ -26,7 +26,6 @@ const LandingNavbar = () => {
     setIsOpen(false);
   };
 
-  // Custom user button component
   const UserProfileButton = () => (
     <Link href="/SignOut">
       <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center cursor-pointer hover:bg-blue-500 transition-colors">
@@ -38,7 +37,6 @@ const LandingNavbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#1c2a40] via-[#1f3d60] to-[#2c3e50] text-white py-2 px-6 flex justify-between items-center z-50 shadow-lg border-b-4 border-blue-500 text-xl"
     style={{ fontFamily: "'Poppins', cursive" }}>
-      {/* Logo */}
       <Link href="/" className="flex items-center">
         <Image src="/icon.svg" alt="Logo" width={80} height={80} priority />
       </Link>
@@ -73,7 +71,6 @@ const LandingNavbar = () => {
         </Link>
       </div>
 
-      {/* Login / Sign Up / User Profile Buttons */}
       <div className="hidden md:flex space-x-4 items-center">
         {!isSignedIn ? (
           <>
