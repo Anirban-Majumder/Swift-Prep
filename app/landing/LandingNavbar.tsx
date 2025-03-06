@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu, X, User } from "lucide-react";
 import { SessionContext } from "@/lib/supabase/usercontext";
+import Image from "next/image";
 
 const LandingNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,11 +36,12 @@ const LandingNavbar = () => {
   );
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#1c2a40] via-[#1f3d60] to-[#2c3e50] text-white py-4 px-8 flex justify-between items-center z-50 shadow-lg border-b-4 border-blue-500">
+    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#1c2a40] via-[#1f3d60] to-[#2c3e50] text-white py-2 px-6 flex justify-between items-center z-50 shadow-lg border-b-4 border-blue-500"
+    style={{ fontFamily: "'Bebas Neue', cursive" }}>
       {/* Logo */}
-      <div className="text-3xl font-bold text-blue-400 tracking-wide">
-        <Link href="/">StudyAI</Link>
-      </div>
+      <Link href="/" className="flex items-center">
+        <Image src="/icon.svg" alt="Logo" width={80} height={80} priority />
+      </Link>
 
       {/* Hamburger Menu Button */}
       <button
