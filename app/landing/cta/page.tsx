@@ -19,12 +19,12 @@ export default function CTASection() {
           powered by AI.
         </p>
         <div className="mt-10 flex justify-center space-x-6">
-          <Link href="/reg-form">
+          <Link href="/SignIn">
             <button className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-110 hover:shadow-2xl">
               Get Started
             </button>
           </Link>
-          <Link href="/sign-in">
+          <Link href="/SignIn">
             <button className="px-8 py-3.5 border-2 border-white text-white font-semibold rounded-lg transition-transform transform hover:bg-white hover:text-blue-600 hover:scale-110 hover:shadow-2xl">
               Log In
             </button>
