@@ -36,8 +36,8 @@ const LandingNavbar = () => {
   );
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#1c2a40] via-[#1f3d60] to-[#2c3e50] text-white py-2 px-6 flex justify-between items-center z-50 shadow-lg border-b-4 border-blue-500"
-    style={{ fontFamily: "'Bebas Neue', cursive" }}>
+    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#1c2a40] via-[#1f3d60] to-[#2c3e50] text-white py-2 px-6 flex justify-between items-center z-50 shadow-lg border-b-4 border-blue-500 text-xl"
+    style={{ fontFamily: "'Poppins', cursive" }}>
       {/* Logo */}
       <Link href="/" className="flex items-center">
         <Image src="/icon.svg" alt="Logo" width={80} height={80} priority />
@@ -52,7 +52,7 @@ const LandingNavbar = () => {
       </button>
 
       {/* Desktop Navbar Links */}
-      <div className="hidden md:flex space-x-8 text-lg font-medium">
+      <div className="hidden md:flex space-x-8 text-xl font-medium">
         {["features", "how-it-works", "faqs", "get started"].map((item) => (
           <a
             key={item}

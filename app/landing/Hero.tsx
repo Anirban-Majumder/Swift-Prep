@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import Particles from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
+import Tilt from "react-parallax-tilt"; // Added for the tilt effect
 
 const Hero = () => {
   const particlesInit = async (engine: any) => {
@@ -13,14 +14,16 @@ const Hero = () => {
 
   return (
     <section
-      className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen text-black overflow-hidden font-inter"
+      className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen overflow-hidden font-inter"
       style={{
-        backgroundImage: 'url("/herobg.jpg")',
+        backgroundImage: 'url("/featurebg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
-        imageRendering: "crisp-edges",
       }}
     >
+      {/* Dark Overlay for Better Readability */}
+      <div className="absolute inset-0 backdrop-blur-sm z-0" />
+      {/* Particles Background */}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -31,25 +34,9 @@ const Hero = () => {
             number: { value: 150, density: { enable: true, value_area: 1000 } },
             color: { value: ["#00FFFF", "#FF00FF", "#FFA500"] },
             shape: { type: "star" },
-            opacity: {
-              value: 0.8,
-              random: true,
-              animation: {
-                enable: true,
-                speed: 0.5,
-                minimumValue: 0.2,
-                sync: false,
-              },
-            },
+            opacity: { value: 0.8, random: true },
             size: { value: 4, random: true },
-            move: {
-              enable: true,
-              speed: 2,
-              direction: "none",
-              random: false,
-              straight: false,
-              outModes: { default: "out" },
-            },
+            move: { enable: true, speed: 2, outModes: { default: "out" } },
             links: {
               enable: true,
               color: "#ffffff",
@@ -64,7 +51,7 @@ const Hero = () => {
               onClick: { enable: true, mode: "repulse" },
             },
             modes: {
-              bubble: { distance: 150, size: 6, duration: 2, opacity: 1 },
+              bubble: { distance: 150, size: 6, duration: 2 },
               repulse: { distance: 100, duration: 0.4 },
             },
           },
@@ -72,17 +59,15 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full z-0"
       />
 
-      <div className="relative z-10 max-w-2xl">
+      {/* Hero Content */}
+      <div className="relative z-10 max-w-2xl text-center md:text-left">
         <motion.h1
-          className="text-7xl md:text-7xl font-bold leading-tight text-center md:text-left font-roboto"
+          className="text-6xl md:text-7xl font-bold leading-tight text-white font-poppins drop-shadow-[2px_2px_6px_rgba(0,0,0,0.8)]"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 2, ease: "easeOut" }}
         >
-          <span
-            className="text-white inline-block min-w-[190px] text-left"
-            style={{ fontFamily: "'Bebas Neue', cursive" }}
-          >
+          <span className="inline-block min-w-[190px]">
             <Typewriter
               words={["Innovate", "Transform", "Personalize", "Empower"]}
               loop
@@ -93,39 +78,24 @@ const Hero = () => {
               delaySpeed={2500}
             />
           </span>
-          <span
-            className="text-white"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-          >
-            Your Learning
-          </span>{" "}
           <br />
-          <span
-            className="bg-gradient-to-r from-cyan-500 to-pink-600 text-transparent bg-clip-text"
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              color: "transparent",
-            }}
-          >
+          <span className="text-white">Your Learning</span> <br />
+          <span className="bg-gradient-to-r from-cyan-500 to-pink-600 text-transparent bg-clip-text">
             Experience
           </span>
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-3xl text-center md:text-left"
+          className="mt-6 text-2xl md:text-3xl text-white font-poppins drop-shadow-[2px_2px_5px_rgba(0,0,0,0.7)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-          style={{
-            color: "white",
-            fontFamily: "'Bebas Neue', sans-serif",
-            WebkitTextStroke: "1px #fff",
-          }}
         >
           AI-driven, personalized study tools to revolutionize the way you
           learn.
         </motion.p>
 
+        {/* Call to Action Buttons */}
         <motion.div
           className="mt-8 flex space-x-6 justify-center md:justify-start"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -133,55 +103,59 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.5 }}
         >
           <Link href="/creategoal">
-            <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 font-roboto">
+            <button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 drop-shadow-[2px_2px_6px_rgba(0,0,0,0.8)]">
               Get Started
             </button>
           </Link>
           <Link href="#features">
-            <button className="border border-black text-white px-8 py-4 rounded-full text-lg font-medium bg-opacity-30 backdrop-blur-lg hover:bg-white hover:text-blue-600 transition duration-300 font-roboto">
+            <button className="border border-white text-white px-8 py-4 rounded-full text-lg font-medium bg-opacity-30 backdrop-blur-lg hover:bg-white hover:text-blue-600 transition duration-300 drop-shadow-[2px_2px_5px_rgba(0,0,0,0.8)]">
               Learn More
             </button>
           </Link>
         </motion.div>
       </div>
 
+      {/* Hero Image with Parallax Tilt */}
       <motion.div
         className="relative z-10 mt-12 md:mt-0 max-w-[500px] flex justify-center items-center"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
       >
+        {/* Glowing Background Effect */}
         <motion.div
           className="absolute -z-10 w-[90%] h-[90%] bg-cyan-400 blur-[70px] opacity-40"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
         />
 
-        <motion.div
-          className="relative"
-          animate={{
-            y: [0, -8, 0],
-            boxShadow: [
-              "0 0 15px rgba(0, 255, 255, 0.3), 0 0 30px rgba(255, 0, 255, 0.3)",
-              "0 0 25px rgba(0, 255, 255, 0.5), 0 0 35px rgba(255, 0, 255, 0.5)",
-              "0 0 15px rgba(0, 255, 255, 0.3), 0 0 30px rgba(255, 0, 255, 0.3)",
-            ],
-          }}
-          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-          whileHover={{ rotateY: 8, rotateX: 8, scale: 1.05 }}
+        {/* Floating Image with Tilt Effect */}
+        <Tilt
+          tiltMaxAngleX={15}
+          tiltMaxAngleY={15}
+          perspective={1000}
+          transitionSpeed={1000}
+          glareEnable={true}
+          glareMaxOpacity={0.4}
+          glareColor="lightblue"
+          className="rounded-lg"
         >
-          <Image
-            src="/Hero.jpeg"
-            alt="Study AI"
-            width={600}
-            height={600}
-            priority
-            className="drop-shadow-lg rounded-lg ring-4 ring-cyan-400 hover:rotate-2 transition-transform duration-300"
-          />
-        </motion.div>
+          <motion.div
+            className="relative"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+            whileHover={{ rotateY: 8, rotateX: 8, scale: 1.05 }}
+          >
+            <Image
+              src="/Hero.jpeg"
+              alt="Study AI"
+              width={600}
+              height={600}
+              priority
+              className="drop-shadow-lg rounded-lg ring-4 ring-cyan-400 transition-transform duration-300"
+            />
+          </motion.div>
+        </Tilt>
       </motion.div>
     </section>
   );

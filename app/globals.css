@@ -1,10 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Anton&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Anton&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   overflow-x: hidden;
@@ -109,35 +109,52 @@ body::-webkit-scrollbar {
 }
 
 .bg-neon-glow {
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.4) 10%, transparent 80%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.4) 10%,
+    transparent 80%
+  );
   transition: background 0.5s ease-in-out;
 }
 
 .bg-neon-glow:hover {
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.5) 10%, transparent 80%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.5) 10%,
+    transparent 80%
+  );
 }
 
 /* Glitch Effect for Title */
 .glitch {
   position: relative;
-  text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8), -2px -2px 10px rgba(255, 0, 255, 0.8);
+  text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8),
+    -2px -2px 10px rgba(255, 0, 255, 0.8);
   animation: glitch 1.5s infinite alternate;
 }
 
 @keyframes glitch {
   0% {
-    text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8), -2px -2px 10px rgba(255, 0, 255, 0.8);
+    text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8),
+      -2px -2px 10px rgba(255, 0, 255, 0.8);
   }
   100% {
-    text-shadow: -2px -2px 10px rgba(0, 255, 255, 0.8), 2px 2px 10px rgba(255, 0, 255, 0.8);
+    text-shadow: -2px -2px 10px rgba(0, 255, 255, 0.8),
+      2px 2px 10px rgba(255, 0, 255, 0.8);
   }
 }
 
 /* Wave Animation */
 @keyframes wave {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(-10px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .bg-wave {
@@ -165,8 +182,14 @@ body::-webkit-scrollbar {
 
 /* Smooth Fade In Animation */
 @keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
@@ -174,9 +197,15 @@ body::-webkit-scrollbar {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-.fade-in:nth-child(1) { animation-delay: 0.3s; }
-.fade-in:nth-child(2) { animation-delay: 0.5s; }
-.fade-in:nth-child(3) { animation-delay: 0.7s; }
+.fade-in:nth-child(1) {
+  animation-delay: 0.3s;
+}
+.fade-in:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.fade-in:nth-child(3) {
+  animation-delay: 0.7s;
+}
 
 /* Background Grid */
 .bg-futuristic-grid {
@@ -192,8 +221,12 @@ body::-webkit-scrollbar {
 }
 
 @keyframes grid-move {
-  from { transform: translateY(0); }
-  to { transform: translateY(20px); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(20px);
+  }
 }
 
 /* Dark Futuristic Background */
@@ -211,5 +244,5 @@ body::-webkit-scrollbar {
 }
 
 :root {
-  --font-kagitingan: 'Kagitingan', sans-serif;
+  --font-kagitingan: "Kagitingan", sans-serif;
 }

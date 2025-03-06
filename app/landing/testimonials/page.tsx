@@ -55,12 +55,17 @@ export default function FAQPage() {
     <section
       id="faqs"
       className="py-16 bg-dark-tech text-white relative overflow-hidden"
+      style={{
+        backgroundImage: 'url("/featurebg.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="max-w-5xl mx-auto px-6">
         <h2 className="text-5xl font-bold text-center text-blue-400 mb-8">
-          Common Questions
+          COMMON QUESTIONS
         </h2>
-        <p className="text-center text-gray-300 mt-2 mb-10">
+        <p className="text-2xl text-center text-gray-400 mt-2 mb-10">
           Find answers to frequently asked questions about SwiftPrep.
         </p>
 
