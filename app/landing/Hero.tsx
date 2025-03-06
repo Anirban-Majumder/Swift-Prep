@@ -13,12 +13,12 @@ const Hero = () => {
 
   return (
     <section
-    className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen text-black overflow-hidden font-inter"
+      className="relative flex flex-col md:flex-row items-center justify-between px-8 md:px-16 py-24 min-h-screen text-black overflow-hidden font-inter"
       style={{
         backgroundImage: 'url("/herobg.jpg")',
-        backgroundSize: "cover", 
+        backgroundSize: "cover",
         backgroundPosition: "center",
-        imageRendering: "crisp-edges", 
+        imageRendering: "crisp-edges",
       }}
     >
       <Particles
@@ -116,7 +116,11 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-          style={{ color: "white", fontFamily: "'Bebas Neue', sans-serif", WebkitTextStroke: "1px #fff", }}
+          style={{
+            color: "white",
+            fontFamily: "'Bebas Neue', sans-serif",
+            WebkitTextStroke: "1px #fff",
+          }}
         >
           AI-driven, personalized study tools to revolutionize the way you
           learn.

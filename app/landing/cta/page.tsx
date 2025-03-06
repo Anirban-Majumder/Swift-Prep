@@ -15,8 +15,8 @@ export default function CTASection() {
           Ready to Boost Your Learning?
         </h2>
         <p className="mt-2 text-lg opacity-90 max-w-2xl mx-auto">
-          Join StudyAI today and get personalized study recommendations powered
-          by AI.
+          Join Swift Prep today and get personalized study recommendations
+          powered by AI.
         </p>
         <div className="mt-10 flex justify-center space-x-6">
           <Link href="/reg-form">
