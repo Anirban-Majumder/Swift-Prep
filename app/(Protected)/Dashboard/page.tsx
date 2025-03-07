@@ -157,8 +157,8 @@ export default function Dashboard() {
     <div
       className={`flex flex-col min-h-screen font-sans ${
         isDarkMode
-          ? "bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white"
-          : "bg-gradient-to-br from-[#f8fafc] via-[#f0f4ff] to-[#f8fafc] text-gray-900"
+          ? "bg-gradient-to-br from-[#030616] via-[#0A1F38] to-[#071A2F] text-white"
+          : "bg-gradient-to-br from-[#f8fafc] via-[#668bf2] to-[#f8fafc] text-gray-900"
       }`}
     >
       {/* Sidebar */}
@@ -262,7 +262,9 @@ export default function Dashboard() {
             </button>
             <div className="flex items-center space-x-2">
               <User className="text-gray-400" size={24} />
-              <span className={`${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <span
+                className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+              >
                 {sessionData.profile?.username}
               </span>
             </div>
@@ -304,7 +306,7 @@ export default function Dashboard() {
                 isDarkMode ? "border-gray-600/50" : "border-gray-300"
               } rounded-md shadow-sm text-sm font-medium ${
                 isDarkMode ? "text-white" : "text-gray-700"
-              } hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              } hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
             >
               Reset
             </button>
