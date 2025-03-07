@@ -1,5 +1,5 @@
-"use client";
 // @ts-nocheck
+"use client";
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useCopilotChat } from "@copilotkit/react-core";

@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { CopilotKit } from "@copilotkit/react-core";
 import { SessionProvider } from "@/providers/session";
-import { QueryProvider } from "@/providers/query";
 import { ToasterProvider } from "@/providers/toaster";
 import "./globals.css";
 

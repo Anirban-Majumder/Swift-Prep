@@ -156,6 +156,10 @@ export default function Dashboard() {
     router.push(`/Quiz?code=${encodeURIComponent(subject)}`);
   };
 
+  const startStudy = (subject: string) => {
+    router.push(`/Study?code=${encodeURIComponent(subject)}`);
+  }
+  
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -491,8 +495,9 @@ export default function Dashboard() {
                       <Button
                         size="sm"
                         className="flex-1 bg-gradient-to-r from-green-500 to-teal-500 text-white hover:from-green-600 hover:to-teal-600 px-3 py-2 rounded-md text-sm"
+                        onClick={() => startStudy(subjectItem.code)}
                       >
-                        Start Studying
+                        Start Studying 
                       </Button>
                       <Button
                         size="sm"
