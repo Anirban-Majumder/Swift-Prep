@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "devv": "next dev --experimental-https",
-    "build": "turbo build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
