@@ -37,7 +37,7 @@ const Navbar = () => {
           rel="noopener noreferrer"
           className="hover:text-blue-400 transition-all duration-300 relative after:content-[''] after:absolute after:w-full after:h-[2px] after:bg-blue-400 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100"
         >
-          🎯 Quizzes
+          🗺️ Roadmap
         </a>
         <Link
           href="/classroom/pro-ana"

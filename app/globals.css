@@ -94,6 +94,10 @@ body::-webkit-scrollbar {
   }
 }
 
+body {
+  overflow-x: hidden;
+}
+
 @layer base {
   * {
     @apply border-border;

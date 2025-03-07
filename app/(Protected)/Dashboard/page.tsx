@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { createClient } from "@/lib/supabase/client";
 import { SessionContext } from "@/lib/supabase/usercontext";
@@ -19,6 +19,7 @@ import {
   Sun,
   Moon,
   Trash,
+  Rocket,
 } from "lucide-react";
 import { Profile } from "@/lib/db_types";
 import Footer from "../../landing/footer/page";
@@ -181,14 +182,51 @@ export default function Dashboard() {
     }
   };
 
-  const FullPageLoader = () => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
-      <div className="flex flex-col items-center">
-        <Loader2 className="animate-spin text-white mb-4" size={48} />
-        <p className="text-white text-lg font-semibold">Processing PDF...</p>
+  const FullPageLoader = () => {
+    const [progress, setProgress] = useState(0); // Track loading progress
+
+    // Simulate real-time progress (for demonstration purposes)
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(interval); // Stop at 90% to allow final processing
+            return prev;
+          }
+          return prev + 10;
+        });
+      }, 300); // Adjust the interval for smoother progress
+
+      return () => clearInterval(interval);
+    }, []);
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-lg">
+        <div className="flex flex-col items-center space-y-4">
+          {/* Animated Rocket Icon */}
+          <div className="animate-pulse">
+            <Rocket className="text-blue-500 w-16 h-16 animate-float" />
+          </div>
+
+          {/* Loading Text */}
+          <p className="text-white text-2xl font-bold tracking-wider bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            PROCESSING PDF...
+          </p>
+
+          {/* Progress Bar */}
+          <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+
+          {/* Percentage Text */}
+          <p className="text-sm text-gray-400">{progress}%</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div
@@ -445,7 +483,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }
