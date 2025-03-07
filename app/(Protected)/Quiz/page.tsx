@@ -53,6 +53,13 @@ const QuizPage = () => {
     }
   };
 
+  const handleButtonClick = async () => {
+    await handleCheckAnswer();
+    setTimeout(() => {
+      handleNextQuestion(); 
+    }, 2000);
+    };  
+
   const handleAnswerClick = (selectedOption: string) => {
     if (checkedAnswers[currentQuestionIndex]) return;
     setUserAnswers((prev) => ({
@@ -176,9 +183,8 @@ const QuizPage = () => {
                   Check
                 </button>
                 <button
-                  onClick={handleNextQuestion}
+                  onClick={handleButtonClick}
                   className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  disabled={!checkedAnswers[currentQuestionIndex]}
                 >
                   {currentQuestionIndex === quizData.length - 1 ? "Submit Quiz" : "Next"}
                 </button>
