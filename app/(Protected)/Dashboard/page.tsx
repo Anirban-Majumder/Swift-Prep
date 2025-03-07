@@ -301,7 +301,7 @@ export default function Dashboard() {
               <span
                 className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
               >
-                {sessionData.profile?.username}
+                {sessionData.profile?.first_name}
               </span>
             </div>
           </div>
@@ -445,7 +445,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <Footer className="mt-auto" />
+      <Footer/>
     </div>
   );
 }

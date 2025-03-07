@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle,  Loader2 } from "lucide-react";
 
 interface QuizQuestion {
   question: string;
@@ -21,6 +21,7 @@ const QuizPage = () => {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchQuiz();
@@ -28,6 +29,7 @@ const QuizPage = () => {
 
   const fetchQuiz = async () => {
     try {
+      setLoading(true);
       const response = await fetch("/api/generate_quizz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,8 +52,19 @@ const QuizPage = () => {
       } else throw new Error("Invalid quiz data format");
     } catch (error: any) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const Loader = () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
+      <div className="flex flex-col items-center">
+        <Loader2 className="animate-spin text-white mb-4" size={48} />
+        <p className="text-white text-lg font-semibold">Loading Quiz...</p>
+      </div>
+    </div>
+  );
 
   const handleButtonClick = async () => {
     await handleCheckAnswer();
@@ -87,6 +100,8 @@ const QuizPage = () => {
       setQuizCompleted(true);
     }
   };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">
