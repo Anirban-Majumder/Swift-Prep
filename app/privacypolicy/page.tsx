@@ -1,11 +1,9 @@
 'use client';
 
 import { NextPage } from "next";
-import { Layout } from "../components/layout";
 
 const PrivacyPolicy: NextPage = () => {
   return (
-    <Layout>
       <section className="flex justify-center items-start min-h-screen bg-gradient-to-br from-background to-default-100 px-4 md:px-8">
         <div className="w-full max-w-4xl">
           {/* Card replacement */}
@@ -102,7 +100,6 @@ const PrivacyPolicy: NextPage = () => {
           {/* End of Card replacement */}
         </div>
       </section>
-    </Layout>
   );
 };
 

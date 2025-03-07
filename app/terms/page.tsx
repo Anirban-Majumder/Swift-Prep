@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Layout } from "../components/layout";
 import { useTheme } from 'next-themes';
 
 export default function Terms() {
@@ -16,7 +15,6 @@ export default function Terms() {
   }
 
   return (
-    <Layout>
       <div className={`container mx-auto p-8 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         <div className={`w-full ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} rounded shadow`}>
           <div className="flex justify-center py-4 border-b">
@@ -110,6 +108,5 @@ export default function Terms() {
           </div>
         </div>
       </div>
-    </Layout>
   );
 }
