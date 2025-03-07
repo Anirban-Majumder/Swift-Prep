@@ -18,6 +18,7 @@ import {
   Settings,
   Sun,
   Moon,
+  Trash,
 } from "lucide-react";
 import { Profile } from "@/lib/db_types";
 import Footer from "../../landing/footer/page";
@@ -144,6 +145,42 @@ export default function Dashboard() {
     setIsDarkMode(!isDarkMode);
   };
 
+  const deleteSubject = async (code: string) => {
+    try {
+      const updatedSubjects = sessionData.profile?.subjects?.filter(
+        (subject) => subject.code !== code
+      );
+      const updatedSmtDetails = sessionData.profile?.smt_details?.filter(
+        (detail) => detail.code !== code
+      );
+
+      setSessionData((prev) => ({
+        ...prev,
+        profile: {
+          ...prev.profile,
+          subjects: updatedSubjects,
+          smt_details: updatedSmtDetails,
+        } as Profile,
+      }));
+
+      const { error: supabaseError } = await supabase
+        .from("profiles_swiftprep")
+        .update({
+          subjects: updatedSubjects,
+          smt_details: updatedSmtDetails,
+        })
+        .eq("user_id", sessionData.session?.user.id);
+
+      if (supabaseError) {
+        throw new Error(supabaseError.message);
+      }
+
+      setSuccess("Subject deleted successfully!");
+    } catch (err: any) {
+      setError(err.message || "Failed to delete subject");
+    }
+  };
+
   const FullPageLoader = () => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
       <div className="flex flex-col items-center">
@@ -222,7 +259,7 @@ export default function Dashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="ml-64 flex-1 p-8">
+      <div className="ml-64 flex-1 p-8 min-h-[calc(150vh-200px)]">
         {isProcessing && <FullPageLoader />}
         <div className="flex justify-between items-center mb-8">
           <h1
@@ -377,9 +414,11 @@ export default function Dashboard() {
                       </Button>
                       <Button
                         size="sm"
-                        className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 px-3 py-2 rounded-md text-sm"
+                        onClick={() => deleteSubject(subjectItem.code)}
+                        className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 px-3 py-2 rounded-md text-sm"
                       >
-                        Make Notes
+                        <Trash size={16} className="mr-2" />
+                        Delete
                       </Button>
                     </div>
                   </CardContent>
@@ -387,9 +426,11 @@ export default function Dashboard() {
               );
             })
           ) : (
-            <p className="text-gray-500 col-span-full text-center">
-              No subjects found matching your search.
-            </p>
+            <div className="col-span-full flex items-center justify-center min-h-[200px]">
+              <p className="text-gray-500 text-center">
+                No subjects found matching your search.
+              </p>
+            </div>
           )}
         </div>
       </div>
