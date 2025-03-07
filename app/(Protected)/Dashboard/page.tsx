@@ -535,7 +535,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Footer */}
       <div className="mt-auto md:ml-64">
         <Footer />
       </div>
