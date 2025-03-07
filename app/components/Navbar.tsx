@@ -40,7 +40,7 @@ const Navbar = () => {
             📅 Schedule
           </a>
           <Link
-            href="#"
+            href="/classroom/pro-ana"
             target="_blank"
             className="flex items-center gap-3 hover:text-blue-400 transition-all duration-300 relative after:content-[''] after:absolute after:w-full after:h-[2px] after:bg-blue-400 after:left-0 after:bottom-0 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100"
           >
