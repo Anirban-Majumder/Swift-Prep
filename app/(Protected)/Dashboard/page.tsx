@@ -8,6 +8,7 @@ import { Profile } from '@/lib/db_types';
 import Footer from "../../landing/footer/page";
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const supabase = createClient();
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const { sessionData, setSessionData } = useContext(SessionContext);
+  const router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
@@ -104,7 +106,12 @@ export default function Dashboard() {
     setIsProcessing(false);
   };
 
+  const startQuiz = (subject: string) => {
+    router.push(`/Quiz?subject=${encodeURIComponent(subject)}`);
+  };
+
   return (
+    <div>
     <div className="container mx-auto px-4 py-8 bg-[#0F172A] text-white relative">
       <h1 className="text-3xl font-bold mb-6 text-white">Dashboard</h1>
       <div {...getRootProps()} className="border-2 border-dashed p-6 text-center cursor-pointer border-gray-600 bg-[#1E293B] text-gray-300">
@@ -159,7 +166,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex gap-3 mt-auto">
                     <Button size="sm" className="flex-1 bg-green-500 text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm">Start Studying</Button>
-                    <Button size="sm" className="flex-1 bg-yellow-500 text-white hover:bg-yellow-700 px-3 py-2 rounded-md text-sm">Start Quiz</Button>
+                    <Button size="sm" onClick={() => startQuiz(subjectItem.subject)} className="flex-1 bg-yellow-500 text-white hover:bg-yellow-700 px-3 py-2 rounded-md text-sm">Start Quiz</Button>
                     <Button size="sm" className="flex-1 bg-purple-500 text-white hover:bg-purple-700 px-3 py-2 rounded-md text-sm">Make Notes</Button>
                   </div>
                 </CardContent>
@@ -168,13 +175,14 @@ export default function Dashboard() {
           })}
       </div>
       {/* Recent Courses Section */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      {!sessionData.profile?.subjects?
+      <div className="bg-[#1E293B] rounded-lg shadow-lg p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Recent Courses</h2>
         <p className="text-gray-500">
-          {sessionData.session ?
-            "Your recently processed syllabi will appear here." :
-            "Please sign in to view your courses."}
+            Your recently processed syllabi will appear here.
         </p>
+      </div>:null
+      }
       </div>
       <Footer />
     </div>
