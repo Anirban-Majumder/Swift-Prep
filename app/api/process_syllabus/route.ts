@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
-import { createClient } from '@/lib/supabase/server';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
+import { createClient } from "@/lib/supabase/server";
+import fs from "fs";
+import os from "os";
+import path from "path";
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) {
@@ -99,7 +99,7 @@ IMPORTANT:
 - Produce clean, valid JSON with no formatting or newlines in the output
 - Include only the fields specified in this schema
 - Use consistent naming across the structure
-- Infer missing information where possible based on context`
+- Infer missing information where possible based on context`,
 });
 
 const generationConfig = {
@@ -117,21 +117,17 @@ const generationConfig = {
           type: "object",
           properties: {
             subject: {
-              type: "string"
+              type: "string",
             },
             code: {
-              type: "string"
+              type: "string",
             },
             type: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          required: [
-            "subject",
-            "code",
-            "type"
-          ]
-        }
+          required: ["subject", "code", "type"],
+        },
       },
       smt_details: {
         type: "array",
@@ -139,26 +135,20 @@ const generationConfig = {
           type: "object",
           properties: {
             code: {
-              type: "string"
+              type: "string",
             },
             topics: {
               type: "array",
               items: {
-                type: "string"
-              }
-            }
+                type: "string",
+              },
+            },
           },
-          required: [
-            "code",
-            "topics"
-          ]
-        }
-      }
+          required: ["code", "topics"],
+        },
+      },
     },
-    required: [
-      "subjects",
-      "smt_details"
-    ]
+    required: ["subjects", "smt_details"],
   },
 };
 
@@ -180,21 +170,21 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-        // Create a temporary file
-        const tempFilePath = path.join(os.tmpdir(), file.name);
-        await fs.promises.writeFile(tempFilePath, buffer);
-    
-        // Upload to Gemini using the file path
-        const uploadResult = await fileManager.uploadFile(tempFilePath, {
-          mimeType: file.type,
-          displayName: file.name,
-        });
-        
-        // Clean up the temporary file
-        await fs.promises.unlink(tempFilePath);
-    
-        const uploadedFile = uploadResult.file;
-    
+    // Create a temporary file
+    const tempFilePath = path.join(os.tmpdir(), file.name);
+    await fs.promises.writeFile(tempFilePath, buffer);
+
+    // Upload to Gemini using the file path
+    const uploadResult = await fileManager.uploadFile(tempFilePath, {
+      mimeType: file.type,
+      displayName: file.name,
+    });
+
+    // Clean up the temporary file
+    await fs.promises.unlink(tempFilePath);
+
+    const uploadedFile = uploadResult.file;
+
     // Wait for file processing
     console.log("Waiting for file processing...");
     let processedFile = await fileManager.getFile(uploadedFile.name);
@@ -202,37 +192,36 @@ export async function POST(request: NextRequest) {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       processedFile = await fileManager.getFile(uploadedFile.name);
     }
-    
+
     if (processedFile.state !== "ACTIVE") {
       throw Error(`File processing failed`);
     }
-    
-    //ts ignore 
+
+    //ts ignore
     const chatSession = model.startChat({
       // @ts-ignore
       generationConfig,
       history: [],
     });
-    
+
     // Send message to model
     const result = await chatSession.sendMessage([
       {
         fileData: {
           mimeType: processedFile.mimeType,
           fileUri: processedFile.uri,
-        }
+        },
       },
-      {text: "Extract the syllabus information from this document"}
+      { text: "Extract the syllabus information from this document" },
     ]);
-    
+
     // Get the structured data from the response
     const responseText = await result.response.text();
     const syllabusData = JSON.parse(responseText);
     console.log("Syllabus data:", syllabusData);
 
-    
     return NextResponse.json({
-      data: syllabusData
+      data: syllabusData,
     });
   } catch (error: any) {
     console.error("Error processing PDF:", error);
