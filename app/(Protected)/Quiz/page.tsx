@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useState, useContext, useRef } from "react";
+import { useSearchParams, useRouter  } from "next/navigation";
 import {
   CheckCircle,
   XCircle,
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Confetti from "react-confetti";
 import useSound from "use-sound";
-
+import { SessionContext } from "@/lib/supabase/usercontext";
 interface QuizQuestion {
   question: string;
   options: string[];
@@ -22,10 +22,15 @@ interface QuizQuestion {
 }
 
 const QuizPage = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const subject = searchParams.get("subject") || "General Knowledge";
-
+  const {sessionData} = useContext(SessionContext);
+  const searchParams = useSearchParams();
+  const searchTopics = searchParams.get("topics")?.split(",") || [];
+  const subject = searchParams.get("code") || "General Knowledge";
+  const no_of_questions = searchParams.get("num") || 10;
+  const difficulty = searchParams.get("difficulty") || "medium";
+  
+  const [topics, setTopics] = useState<string[]>(searchTopics);
   const [quizData, setQuizData] = useState<QuizQuestion[]>([]);
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [checkedAnswers, setCheckedAnswers] = useState<{
@@ -45,9 +50,32 @@ const QuizPage = () => {
   const [playIncorrect] = useSound("/sounds/incorrect.mp3");
   const [playClick] = useSound("/sounds/click.mp3");
 
+  const hasFetched = useRef(false); // Add a ref to track fetch status
+
   useEffect(() => {
-    fetchQuiz();
-  }, [subject]);
+    // Check if we've already fetched or sessionData isn't ready
+    if (hasFetched.current || !sessionData.profile) return;
+
+    let newTopics = searchTopics;
+
+    if (newTopics.length === 0) {
+      const relevantSmtDetail = sessionData.profile.smt_details?.find(
+        (detail) => detail.code === subject
+      );
+      if (relevantSmtDetail?.topics) {
+        newTopics = [...relevantSmtDetail.topics];
+      }
+    }
+
+    if (newTopics.length > 0) {
+      setTopics(newTopics);
+      console.log("Topics", newTopics);
+      fetchQuiz(newTopics);
+      
+      hasFetched.current = true; // Mark fetch as done
+    }
+  }, [sessionData, subject, searchTopics]);
+
 
   useEffect(() => {
     if (quizCompleted) {
@@ -56,7 +84,7 @@ const QuizPage = () => {
     }
   }, [quizCompleted]);
 
-  const fetchQuiz = async () => {
+  const fetchQuiz = async (selectedTopics: string[]) => {
     try {
       setLoading(true);
       setLoadingProgress(0);
@@ -64,9 +92,9 @@ const QuizPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          no_of_questions: 10,
-          difficulty: "medium",
-          topics: [subject],
+          no_of_questions: no_of_questions,
+          difficulty: difficulty,
+          topics: selectedTopics,
         }),
       });
 
@@ -363,7 +391,7 @@ const QuizPage = () => {
                 <span className="text-green-500">{quizData.length}</span>
               </p>
               <button
-                onClick={fetchQuiz}
+                onClick={()=>fetchQuiz(topics)}
                 className="px-8 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:from-green-600 hover:to-teal-600 flex items-center space-x-2 mx-auto transition-all duration-300"
               >
                 <RefreshCw className="w-6 h-6" />

@@ -57,13 +57,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate inputs
-    if (typeof no_of_questions !== 'number' || no_of_questions <= 0 || no_of_questions > 50) {
-      return NextResponse.json(
-        { error: "Number of questions must be between 1 and 50" },
-        { status: 400 }
-      );
-    }
 
     if (!['easy', 'medium', 'hard'].includes(difficulty.toLowerCase())) {
       return NextResponse.json(

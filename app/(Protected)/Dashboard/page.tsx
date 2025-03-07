@@ -153,7 +153,7 @@ export default function Dashboard() {
   };
 
   const startQuiz = (subject: string) => {
-    router.push(`/Quiz?subject=${encodeURIComponent(subject)}`);
+    router.push(`/Quiz?code=${encodeURIComponent(subject)}`);
   };
 
   const toggleDarkMode = () => {
@@ -496,7 +496,7 @@ export default function Dashboard() {
                       </Button>
                       <Button
                         size="sm"
-                        onClick={() => startQuiz(subjectItem.subject)}
+                        onClick={() => startQuiz(subjectItem.code)}
                         className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white hover:from-yellow-600 hover:to-orange-600 px-3 py-2 rounded-md text-sm"
                       >
                         Start Quiz
