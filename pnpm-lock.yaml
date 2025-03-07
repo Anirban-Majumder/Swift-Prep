@@ -101,6 +101,9 @@ importers:
       react-chartjs-2:
         specifier: 4.3.1
         version: 4.3.1(chart.js@3.9.1)(react@19.0.0)
+      react-confetti:
+        specifier: ^6.4.0
+        version: 6.4.0(react@19.0.0)
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
@@ -131,6 +134,9 @@ importers:
       typewriter-effect:
         specifier: ^2.21.0
         version: 2.21.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      use-sound:
+        specifier: ^5.0.0
+        version: 5.0.0(react@19.0.0)
       web-push:
         specifier: ^3.6.7
         version: 3.6.7
@@ -2205,6 +2211,9 @@ packages:
   highlightjs-vue@1.0.0:
     resolution: {integrity: sha512-PDEfEF102G23vHmPhLyPboFCD+BkMGu+GuJe2d9/eH4FsCwvgBpnc9n0pGE+ffKdph38s6foEZiEjdgHdzp+IA==}
 
+  howler@2.2.4:
+    resolution: {integrity: sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==}
+
   html2canvas@1.4.1:
     resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
     engines: {node: '>=8.0.0'}
@@ -3003,6 +3012,12 @@ packages:
       chart.js: ^3.5.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
+  react-confetti@6.4.0:
+    resolution: {integrity: sha512-5MdGUcqxrTU26I2EU7ltkWPwxvucQTuqMm8dUz72z2YMqTD6s9vMcDUysk7n9jnC+lXuCPeJJ7Knf98VEYE9Rg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.1 || ^18.0.0 || ^19.0.0
+
   react-dom@19.0.0:
     resolution: {integrity: sha512-4GV5sHFG0e/0AD4X+ySy6UJd3jVl1iNsNHdpad0qhABJ11twS3TTBnseqsKurKcsNqCEFeGL3uLpVChpIO3QfQ==}
     peerDependencies:
@@ -3430,6 +3445,9 @@ packages:
     resolution: {integrity: sha512-N9FDOVaY3yz0YCOhYIgOGYad7+m2ptvinXygw27WPLQvcZDl3+0Sa77KGVlLSiuPDChOUEnTKE9VJwLSi9BPGQ==}
     hasBin: true
 
+  tween-functions@1.2.0:
+    resolution: {integrity: sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA==}
+
   type-graphql@2.0.0-rc.1:
     resolution: {integrity: sha512-HCu4j3jR0tZvAAoO7DMBT3MRmah0DFRe5APymm9lXUghXA0sbhiMf6SLRafRYfk0R0KiUQYRduuGP3ap1RnF1Q==}
     engines: {node: '>= 18.12.0'}
@@ -3525,6 +3543,11 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  use-sound@5.0.0:
+    resolution: {integrity: sha512-MNHT3FFC5HxNCrgZtrnpIMJI2cw/0D2xismcrtyht8BTuF5FhFhb57xO/jlQr2xJaFrc/0btzRQvGyHQwB7PVA==}
+    peerDependencies:
+      react: '>=16.8'
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -5681,6 +5704,8 @@ snapshots:
 
   highlightjs-vue@1.0.0: {}
 
+  howler@2.2.4: {}
+
   html2canvas@1.4.1:
     dependencies:
       css-line-break: 2.1.0
@@ -6608,6 +6633,11 @@ snapshots:
       chart.js: 3.9.1
       react: 19.0.0
 
+  react-confetti@6.4.0(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      tween-functions: 1.2.0
+
   react-dom@19.0.0(react@19.0.0):
     dependencies:
       react: 19.0.0
@@ -7106,6 +7136,8 @@ snapshots:
       turbo-windows-64: 2.4.4
       turbo-windows-arm64: 2.4.4
 
+  tween-functions@1.2.0: {}
+
   type-graphql@2.0.0-rc.1(class-validator@0.14.1)(graphql-scalars@1.24.1(graphql@16.10.0))(graphql@16.10.0):
     dependencies:
       '@graphql-yoga/subscription': 5.0.3
@@ -7205,6 +7237,11 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 19.0.10
+
+  use-sound@5.0.0(react@19.0.0):
+    dependencies:
+      howler: 2.2.4
+      react: 19.0.0
 
   util-deprecate@1.0.2: {}
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { createClient } from "@/lib/supabase/client";
 import { SessionContext } from "@/lib/supabase/usercontext";
@@ -19,6 +19,8 @@ import {
   Sun,
   Moon,
   Trash,
+  Rocket,
+  Menu,
 } from "lucide-react";
 import { Profile } from "@/lib/db_types";
 import Footer from "../../landing/footer/page";
@@ -35,12 +37,26 @@ export default function Dashboard() {
   const [success, setSuccess] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const { sessionData, setSessionData } = useContext(SessionContext);
   const router = useRouter();
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const filteredSubjects = sessionData.profile?.subjects?.filter((subject) =>
     subject.subject.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
@@ -181,14 +197,46 @@ export default function Dashboard() {
     }
   };
 
-  const FullPageLoader = () => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
-      <div className="flex flex-col items-center">
-        <Loader2 className="animate-spin text-white mb-4" size={48} />
-        <p className="text-white text-lg font-semibold">Processing PDF...</p>
+  const FullPageLoader = () => {
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(interval);
+            return prev;
+          }
+          return prev + 10;
+        });
+      }, 300);
+
+      return () => clearInterval(interval);
+    }, []);
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-lg">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-pulse">
+            <Rocket className="text-blue-500 w-16 h-16 animate-float" />
+          </div>
+
+          <p className="text-white text-2xl font-bold tracking-wider bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            PROCESSING PDF...
+          </p>
+
+          <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+
+          <p className="text-sm text-gray-400">{progress}%</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div
@@ -200,29 +248,41 @@ export default function Dashboard() {
     >
       {/* Sidebar */}
       <div
-        className={`w-64 p-4 fixed h-full ${
+        ref={sidebarRef}
+        className={`fixed inset-y-0 left-0 w-64 p-4 transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out ${
           isDarkMode
             ? "bg-[#1E293B]/90 backdrop-blur-md text-white border-r border-[#334155]/50"
             : "bg-white/90 backdrop-blur-md text-gray-900 border-r border-gray-200"
-        }`}
+        } md:translate-x-0 z-50`}
       >
-        <div className="flex items-center mb-8">
-          <BookOpen
-            className={`${isDarkMode ? "text-blue-500" : "text-blue-600"} mr-2`}
-            size={24}
-          />
-          <h1 className="text-xl font-bold">SwiftPrep</h1>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center">
+            <BookOpen
+              className={`${isDarkMode ? "text-blue-500" : "text-blue-600"} mr-2`}
+              size={24}
+            />
+            <h1 className="text-xl font-bold">SwiftPrep</h1>
+          </div>
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="md:hidden p-2 rounded-full hover:bg-gray-500/20"
+          >
+            <X size={20} />
+          </button>
         </div>
         <nav>
           <ul className="space-y-2">
             <li>
               <a
-                href="/"
+                href="/classroom"
                 className={`flex items-center p-2 ${
                   isDarkMode
                     ? "hover:bg-[#334155]/50 text-white"
                     : "hover:bg-gray-100/50 text-gray-900"
                 } rounded transition-all`}
+                onClick={() => setIsSidebarOpen(false)}
               >
                 <Home className="mr-2" size={18} />
                 Home
@@ -236,74 +296,104 @@ export default function Dashboard() {
                     ? "hover:bg-[#334155]/50 text-white"
                     : "hover:bg-gray-100/50 text-gray-900"
                 } rounded transition-all`}
+                onClick={() => setIsSidebarOpen(false)}
               >
-                <BookOpen className="mr-2" size={18} />
-                Courses
+                📚 Study Materials
               </a>
             </li>
             <li>
               <a
-                href="#"
+                href="/schedule" 
                 className={`flex items-center p-2 ${
                   isDarkMode
                     ? "hover:bg-[#334155]/50 text-white"
                     : "hover:bg-gray-100/50 text-gray-900"
                 } rounded transition-all`}
+                onClick={() => setIsSidebarOpen(false)}
               >
-                <Settings className="mr-2" size={18} />
-                Settings
+                📅 Schedule
+              </a>
+            </li>
+            <li>
+              <a
+                href="/classroom/pro-ana" 
+                className={`flex items-center p-2 ${
+                  isDarkMode
+                    ? "hover:bg-[#334155]/50 text-white"
+                    : "hover:bg-gray-100/50 text-gray-900"
+                } rounded transition-all`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                📈 Progress & Analytics
               </a>
             </li>
           </ul>
         </nav>
+        {/* Dark/Light Toggle Button in Sidebar */}
+        <button
+          onClick={toggleDarkMode}
+          className={`mt-4 p-2 rounded-full ${
+            isDarkMode ? "bg-[#334155]/50" : "bg-gray-100/50"
+          } backdrop-blur-md transition-all hover:scale-110 w-full text-left flex items-center`}
+        >
+          {isDarkMode ? <Sun size={20} className="mr-2" /> : <Moon size={20} className="mr-2" />}
+          <span className="text-sm">{isDarkMode ? "Light Mode" : "Dark Mode"}</span>
+        </button>
       </div>
 
-      <div className="ml-64 flex-1 p-8 min-h-[calc(150vh-200px)]">
+      {/* Main Content */}
+      <div className="flex-1 p-8 min-h-[calc(150vh-200px)] md:ml-64">
         {isProcessing && <FullPageLoader />}
-        <div className="flex justify-between items-center mb-8">
-          <h1
-            className={`text-3xl font-bold ${
-              isDarkMode ? "text-white" : "text-gray-900"
-            }`}
-          >
-            DASHBOARD
-          </h1>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`${
-                  isDarkMode
-                    ? "bg-[#1E293B]/50 text-white"
-                    : "bg-white/90 text-gray-900"
-                } rounded-full pl-10 pr-4 py-2 focus:outline-none backdrop-blur-md border ${
-                  isDarkMode ? "border-gray-600/50" : "border-gray-200"
-                }`}
-              />
-              <Search
-                className="absolute left-3 top-2.5 text-gray-400"
-                size={18}
-              />
-            </div>
-            <button
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full ${
-                isDarkMode ? "bg-[#334155]/50" : "bg-gray-100/50"
-              } backdrop-blur-md transition-all hover:scale-110`}
-            >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <div className="flex items-center space-x-2">
-              <User className="text-gray-400" size={24} />
-              <span
-                className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+        <div className="flex flex-col space-y-4 mb-8">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="md:hidden p-2 rounded-full bg-gray-500/50 backdrop-blur-md"
               >
-                {sessionData.profile?.first_name}
-              </span>
+                <Menu size={24} />
+              </button>
+              <h1
+                className={`text-3xl font-bold ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
+                DASHBOARD
+              </h1>
             </div>
+            <div className="flex items-center space-x-4">
+  <div className="flex items-center space-x-2">
+    <User className="text-gray-400" size={24} />
+    {/* Hide profile name on mobile screens */}
+    <span
+      className={`hidden md:inline ${
+        isDarkMode ? "text-white" : "text-gray-900"
+      }`}
+    >
+      {sessionData.profile?.first_name}
+    </span>
+  </div>
+</div>
+          </div>
+
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={`w-full ${
+                isDarkMode
+                  ? "bg-[#1E293B]/50 text-white"
+                  : "bg-white/90 text-gray-900"
+              } rounded-full pl-10 pr-4 py-2 focus:outline-none backdrop-blur-md border ${
+                isDarkMode ? "border-gray-600/50" : "border-gray-200"
+              }`}
+            />
+            <Search
+              className="absolute left-3 top-2.5 text-gray-400"
+              size={18}
+            />
           </div>
         </div>
 
@@ -445,7 +535,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <Footer/>
+      <div className="mt-auto md:ml-64">
+        <Footer />
+      </div>
     </div>
   );
 }
