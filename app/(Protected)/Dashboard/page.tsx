@@ -38,7 +38,6 @@ export default function Dashboard() {
   const { sessionData, setSessionData } = useContext(SessionContext);
   const router = useRouter();
 
-  // Filter subjects based on search query
   const filteredSubjects = sessionData.profile?.subjects?.filter((subject) =>
     subject.subject.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -176,6 +175,7 @@ export default function Dashboard() {
       }
 
       setSuccess("Subject deleted successfully!");
+      setTimeout(() => setSuccess(""), 5000);
     } catch (err: any) {
       setError(err.message || "Failed to delete subject");
     }
@@ -258,7 +258,6 @@ export default function Dashboard() {
         </nav>
       </div>
 
-      {/* Main Content */}
       <div className="ml-64 flex-1 p-8 min-h-[calc(150vh-200px)]">
         {isProcessing && <FullPageLoader />}
         <div className="flex justify-between items-center mb-8">
@@ -267,7 +266,7 @@ export default function Dashboard() {
               isDarkMode ? "text-white" : "text-gray-900"
             }`}
           >
-            Dashboard
+            DASHBOARD
           </h1>
           <div className="flex items-center space-x-4">
             <div className="relative">
@@ -333,7 +332,7 @@ export default function Dashboard() {
         <div className="flex justify-between items-center mt-4">
           <div className="flex-1">
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            {success && <p className="text-green-500 text-sm">{success}</p>}
+            {success && <p className="text-green-600 text-m">{success}</p>}
           </div>
           <div className="flex space-x-3">
             <button
@@ -427,15 +426,25 @@ export default function Dashboard() {
             })
           ) : (
             <div className="col-span-full flex items-center justify-center min-h-[200px]">
-              <p className="text-gray-500 text-center">
-                No subjects found matching your search.
-              </p>
+              {searchQuery ? (
+                <p className="text-gray-500 text-center">
+                  No subjects found matching your search.
+                </p>
+              ) : (
+                <div className="text-center">
+                  <p className="text-lg font-semibold mb-2">
+                    Welcome to SwiftPrep! 🎉
+                  </p>
+                  <p className="text-gray-500">
+                    Upload a syllabus to get started and see your subjects here.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
       </div>
 
-      {/* Footer */}
       <Footer className="mt-auto" />
     </div>
   );
