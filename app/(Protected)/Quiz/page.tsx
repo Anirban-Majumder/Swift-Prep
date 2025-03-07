@@ -13,6 +13,8 @@ interface QuizQuestion {
 const QuizPage = () => {
   const searchParams = useSearchParams();
   const subject = searchParams.get("subject") || "General Knowledge";
+  const no_of_questions = searchParams.get("no_of_questions") || 10;
+  const difficulty = searchParams.get("difficulty") || "medium";
 
   const [quizData, setQuizData] = useState<QuizQuestion[]>([]);
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
@@ -34,8 +36,8 @@ const QuizPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          no_of_questions: 10,
-          difficulty: "medium",
+          no_of_questions: no_of_questions,
+          difficulty: difficulty,
           topics: [subject],
         }),
       });

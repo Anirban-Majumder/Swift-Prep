@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, {useContext} from "react";
 import { useRouter } from "next/navigation";
 import {
   useCopilotReadable,
@@ -7,19 +7,29 @@ import {
 } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 import "@copilotkit/react-ui/styles.css";
-import { createClient } from "@/lib/supabase/client";
+import { SessionContext } from "@/lib/supabase/usercontext";
 
 
 
 export function CopilotManager() {
-  const router = useRouter();
-  const supabase = createClient();
-
+    const { sessionData, setSessionData } = useContext(SessionContext);
+    useCopilotReadable({
+      description: "Current date for reference.",
+      value: new Date().toDateString(),
+    })
+  
+    useCopilotReadable({
+      description: "User session, profile details for personalization.",
+      value: {
+        isSignedIn: !!sessionData.session,
+        user: sessionData.profile,
+      },
+    });
 
   return (
     <CopilotPopup
       instructions={`
-You are StudyAI Assistant, a specialized digital assistant designed exclusively to help students with questions and guidance related to education, studying, learning strategies, courses, and academic content.
+You are Swift-Prep Assistant, a specialized digital assistant designed exclusively to help students with questions and guidance related to education, studying, learning strategies, courses, and academic content.
 
 Key Responsibilities:
 - Answer queries about studying, learning strategies, course materials, and academic topics with accurate, personalized, and helpful information.
@@ -36,9 +46,10 @@ Guidelines:
 Your sole purpose is to assist users with education-related inquiries using the tools and data provided. Stay within these boundaries and deliver responses that are both supportive and informative.
 `}
       labels={{
-        title: "StudyAI Assistant",
+        title: "Swift-Prep Assistant",
         initial: `Hello there, how can I help with your studies today?`,
       }}
+      clickOutsideToClose={true}
     />
   );
 }
