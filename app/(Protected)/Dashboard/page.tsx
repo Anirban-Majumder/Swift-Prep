@@ -21,6 +21,7 @@ import {
   Trash,
   Rocket,
   Menu,
+  AlertTriangle
 } from "lucide-react";
 import { Profile } from "@/lib/db_types";
 import Footer from "../../landing/footer/page";
@@ -329,6 +330,20 @@ export default function Dashboard() {
                 onClick={() => setIsSidebarOpen(false)}
               >
                 📈 Progress & Analytics
+              </a>
+            </li>
+            <li>
+              <a
+                href="/Extension"
+                className={`flex items-center p-2 ${
+                  isDarkMode
+                    ? "hover:bg-[#334155]/50 text-white"
+                    : "hover:bg-gray-100/50 text-gray-900"
+                } rounded transition-all`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <AlertTriangle className="mr-2" size={18} />
+                Download Extension
               </a>
             </li>
           </ul>
