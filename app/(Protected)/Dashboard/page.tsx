@@ -309,7 +309,7 @@ export default function Dashboard() {
             </li>
             <li>
               <a
-                href="/schedule" 
+                href="/Roadmap" 
                 className={`flex items-center p-2 ${
                   isDarkMode
                     ? "hover:bg-[#334155]/50 text-white"
