@@ -56,7 +56,9 @@ const RoadmapPage = () => {
   const code = searchParams.get("code");
   const [subject, setSubject] = useState("");
   const [syllabus, setSyllabus] = useState("");
-  const [totalStudyTimeHours, setTotalStudyTimeHours] = useState<number | null>(null); // Total study time in hours
+  const [totalStudyTimeHours, setTotalStudyTimeHours] = useState<number | null>(
+    null
+  ); // Total study time in hours
   const [roadmapData, setRoadmapData] = useState<Module[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -100,9 +102,10 @@ const RoadmapPage = () => {
     const totalStudyTimeMinutes = totalStudyTimeHours * 60;
 
     const totalTopics = roadmapData.reduce(
-      (acc, module) => acc + module.topicGroups.reduce(
-        (acc, group) => acc + group.topics.length, 0
-      ), 0
+      (acc, module) =>
+        acc +
+        module.topicGroups.reduce((acc, group) => acc + group.topics.length, 0),
+      0
     );
 
     const timePerTopic = totalStudyTimeMinutes / totalTopics;
@@ -137,8 +140,8 @@ const RoadmapPage = () => {
     setExpandedGroup(expandedGroup === groupId ? null : groupId);
   };
 
-  const navigateToDetail = (groupId: string) => {
-    router.push(`/classroom/${groupId}`);
+  const navigateToDetail = (topicTitle: string) => {
+    router.push(`/study/${encodeURIComponent(topicTitle)}`);
   };
 
   const hasFetched = useRef(false); // Add a ref to track fetch status
@@ -329,18 +332,6 @@ const RoadmapPage = () => {
                                       )}
                                     </div>
                                   </CollapsibleTrigger>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      navigateToDetail(group.groupId);
-                                    }}
-                                  >
-                                    Learn More
-                                    <ArrowRight className="w-4 h-4 ml-2" />
-                                  </Button>
                                 </div>
 
                                 <CollapsibleContent className="mt-4 space-y-3">
@@ -360,7 +351,8 @@ const RoadmapPage = () => {
                                                 variant={
                                                   topic.priority === "High"
                                                     ? "destructive"
-                                                    : topic.priority === "Medium"
+                                                    : topic.priority ===
+                                                      "Medium"
                                                     ? "warning"
                                                     : "default"
                                                 }
@@ -369,7 +361,10 @@ const RoadmapPage = () => {
                                               </Badge>
                                             )}
                                             {topic.allocatedTime && (
-                                              <Badge variant="outline" className="text-gray-400">
+                                              <Badge
+                                                variant="outline"
+                                                className="text-gray-400"
+                                              >
                                                 {topic.allocatedTime}
                                               </Badge>
                                             )}
@@ -379,17 +374,25 @@ const RoadmapPage = () => {
                                               className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
                                               onClick={() => {
                                                 // Handle marking as completed
-                                                const updatedRoadmapData = [...roadmapData];
-                                                updatedRoadmapData[index].topicGroups.forEach(
-                                                  (g) => {
-                                                    g.topics.forEach((t) => {
-                                                      if (t.topicTitle === topic.topicTitle) {
-                                                        t.completed = !t.completed;
-                                                      }
-                                                    });
-                                                  }
+                                                const updatedRoadmapData = [
+                                                  ...roadmapData,
+                                                ];
+                                                updatedRoadmapData[
+                                                  index
+                                                ].topicGroups.forEach((g) => {
+                                                  g.topics.forEach((t) => {
+                                                    if (
+                                                      t.topicTitle ===
+                                                      topic.topicTitle
+                                                    ) {
+                                                      t.completed =
+                                                        !t.completed;
+                                                    }
+                                                  });
+                                                });
+                                                setRoadmapData(
+                                                  updatedRoadmapData
                                                 );
-                                                setRoadmapData(updatedRoadmapData);
                                               }}
                                             >
                                               {topic.completed ? (
@@ -398,27 +401,46 @@ const RoadmapPage = () => {
                                                 <FileText className="w-4 h-4" />
                                               )}
                                             </Button>
+                                            <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigateToDetail(
+                                                  topic.topicTitle
+                                                ); // Pass topic.topicTitle
+                                              }}
+                                            >
+                                              Learn More
+                                              <ArrowRight className="w-4 h-4 ml-2" />
+                                            </Button>
                                           </div>
                                         </div>
                                         {topic.resources && (
                                           <div className="mt-2 space-y-2">
-                                            {topic.resources.map((resource, idx) => (
-                                              <a
-                                                key={idx}
-                                                href={resource.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center text-blue-400 hover:text-blue-300"
-                                              >
-                                                <Link className="w-4 h-4 mr-2" />
-                                                {resource.type === "video" ? "Watch Video" : "Read Article"}
-                                              </a>
-                                            ))}
+                                            {topic.resources.map(
+                                              (resource, idx) => (
+                                                <a
+                                                  key={idx}
+                                                  href={resource.link}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                  className="flex items-center text-blue-400 hover:text-blue-300"
+                                                >
+                                                  <Link className="w-4 h-4 mr-2" />
+                                                  {resource.type === "video"
+                                                    ? "Watch Video"
+                                                    : "Read Article"}
+                                                </a>
+                                              )
+                                            )}
                                           </div>
                                         )}
                                         {topic.notes && (
                                           <div className="mt-2 text-gray-300">
-                                            <strong>Notes:</strong> {topic.notes}
+                                            <strong>Notes:</strong>{" "}
+                                            {topic.notes}
                                           </div>
                                         )}
                                       </CardContent>
