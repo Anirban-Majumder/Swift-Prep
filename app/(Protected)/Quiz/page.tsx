@@ -172,6 +172,12 @@ const QuizPage = () => {
     }));
   };
 
+  const handleNextClick = () => {
+    handleCheckAnswer();
+    setTimeout(() => {
+      handleNextQuestion();
+    }, 2000);
+  };
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
@@ -369,7 +375,7 @@ const QuizPage = () => {
                   Check Answer
                 </button>
                 <button
-                  onClick={handleNextQuestion}
+                  onClick={handleNextClick}
                   className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 flex items-center space-x-2 transition-all duration-300"
                 >
                   <span>
