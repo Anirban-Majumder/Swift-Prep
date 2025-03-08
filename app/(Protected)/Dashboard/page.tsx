@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useContext, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { createClient } from "@/lib/supabase/client";
+import { CopilotManager } from "@/app/components/copilot";
 import { SessionContext } from "@/lib/supabase/usercontext";
 import {
   X,
@@ -554,7 +555,7 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-
+      <CopilotManager />
       <div className="mt-auto md:ml-64">
         <Footer />
       </div>
