@@ -48,7 +48,6 @@ export default function Dashboard() {
     subject.subject.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Close sidebar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
@@ -309,8 +308,8 @@ export default function Dashboard() {
             </li>
             <li>
               <a
-                href="/Roadmap" 
-                className={`flex items-center p-2 ${
+            href="/Roadmap"
+            className={`flex items-center p-2 ${
                   isDarkMode
                     ? "hover:bg-[#334155]/50 text-white"
                     : "hover:bg-gray-100/50 text-gray-900"
@@ -349,7 +348,6 @@ export default function Dashboard() {
             </li>
           </ul>
         </nav>
-        {/* Dark/Light Toggle Button in Sidebar */}
         <button
           onClick={toggleDarkMode}
           className={`mt-4 p-2 rounded-full ${
@@ -384,7 +382,6 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
   <div className="flex items-center space-x-2">
     <User className="text-gray-400" size={24} />
-    {/* Hide profile name on mobile screens */}
     <span
       className={`hidden md:inline ${
         isDarkMode ? "text-white" : "text-gray-900"

@@ -7,6 +7,10 @@ import {
   ArrowRight,
   BookOpen,
   Loader2,
+  ArrowLeft,
+  Check,
+  Link,
+  FileText,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent } from "../../components/ui/card";
@@ -25,7 +29,11 @@ import { SessionContext } from "@/lib/supabase/usercontext";
 
 interface Topic {
   topicTitle: string;
-  duration: string;
+  priority?: "High" | "Medium" | "Low";
+  resources?: { type: "video" | "article"; link: string }[];
+  notes?: string;
+  completed?: boolean;
+  allocatedTime?: string; // Allocated time in minutes
 }
 
 interface TopicGroup {
@@ -48,6 +56,7 @@ const RoadmapPage = () => {
   const code = searchParams.get("code");
   const [subject, setSubject] = useState("");
   const [syllabus, setSyllabus] = useState("");
+  const [totalStudyTimeHours, setTotalStudyTimeHours] = useState<number | null>(null); // Total study time in hours
   const [roadmapData, setRoadmapData] = useState<Module[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -65,7 +74,6 @@ const RoadmapPage = () => {
 
     try {
       const response = await fetch("/api/roadmap", {
-        // Updated endpoint path
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ subject, syllabus }),
@@ -84,6 +92,41 @@ const RoadmapPage = () => {
     }
   };
 
+  // Function to allocate study time to topics
+  const allocateStudyTime = () => {
+    if (!totalStudyTimeHours || !roadmapData.length) return;
+
+    // Convert total study time from hours to minutes
+    const totalStudyTimeMinutes = totalStudyTimeHours * 60;
+
+    const totalTopics = roadmapData.reduce(
+      (acc, module) => acc + module.topicGroups.reduce(
+        (acc, group) => acc + group.topics.length, 0
+      ), 0
+    );
+
+    const timePerTopic = totalStudyTimeMinutes / totalTopics;
+
+    const updatedRoadmapData = roadmapData.map((module) => ({
+      ...module,
+      topicGroups: module.topicGroups.map((group) => ({
+        ...group,
+        topics: group.topics.map((topic) => ({
+          ...topic,
+          allocatedTime: `${Math.round(timePerTopic)} minutes`, // Allocate time equally
+        })),
+      })),
+    }));
+
+    setRoadmapData(updatedRoadmapData);
+  };
+
+  useEffect(() => {
+    if (totalStudyTimeHours && roadmapData.length) {
+      allocateStudyTime();
+    }
+  }, [totalStudyTimeHours, roadmapData]);
+
   const handleModuleClick = (moduleId: string) => {
     setExpandedModule(expandedModule === moduleId ? null : moduleId);
     setExpandedGroup(null);
@@ -97,6 +140,7 @@ const RoadmapPage = () => {
   const navigateToDetail = (groupId: string) => {
     router.push(`/classroom/${groupId}`);
   };
+
   const hasFetched = useRef(false); // Add a ref to track fetch status
 
   useEffect(() => {
@@ -124,8 +168,18 @@ const RoadmapPage = () => {
   }, [sessionData, code]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Go Back Button */}
+      <div className="max-w-4xl mx-auto p-8">
+        <Button
+          variant="ghost"
+          className="mb-4 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+          onClick={() => router.push("/classroom")} // Redirect to /classroom
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Go Back to Classroom
+        </Button>
+
         <h1 className="text-3xl font-bold mb-8 flex items-center gap-2">
           <BookOpen className="w-8 h-8 text-blue-500" />
           Course Roadmap Generator
@@ -151,6 +205,17 @@ const RoadmapPage = () => {
                 onChange={(e) => setSyllabus(e.target.value)}
                 placeholder="Enter syllabus content"
                 className="bg-gray-700 border-gray-600 text-white min-h-[150px]"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-white">Total Study Time (hours)</Label>
+              <Input
+                type="number"
+                value={totalStudyTimeHours || ""}
+                onChange={(e) => setTotalStudyTimeHours(Number(e.target.value))}
+                placeholder="Enter total study time in hours"
+                className="bg-gray-700 border-gray-600 text-white"
               />
             </div>
 
@@ -290,14 +355,72 @@ const RoadmapPage = () => {
                                             {topic.topicTitle}
                                           </span>
                                           <div className="flex items-center gap-3">
-                                            <Badge
-                                              variant="outline"
-                                              className="text-gray-400"
+                                            {topic.priority && (
+                                              <Badge
+                                                variant={
+                                                  topic.priority === "High"
+                                                    ? "destructive"
+                                                    : topic.priority === "Medium"
+                                                    ? "warning"
+                                                    : "default"
+                                                }
+                                              >
+                                                {topic.priority}
+                                              </Badge>
+                                            )}
+                                            {topic.allocatedTime && (
+                                              <Badge variant="outline" className="text-gray-400">
+                                                {topic.allocatedTime}
+                                              </Badge>
+                                            )}
+                                            <Button
+                                              variant="ghost"
+                                              size="sm"
+                                              className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                                              onClick={() => {
+                                                // Handle marking as completed
+                                                const updatedRoadmapData = [...roadmapData];
+                                                updatedRoadmapData[index].topicGroups.forEach(
+                                                  (g) => {
+                                                    g.topics.forEach((t) => {
+                                                      if (t.topicTitle === topic.topicTitle) {
+                                                        t.completed = !t.completed;
+                                                      }
+                                                    });
+                                                  }
+                                                );
+                                                setRoadmapData(updatedRoadmapData);
+                                              }}
                                             >
-                                              {topic.duration}
-                                            </Badge>
+                                              {topic.completed ? (
+                                                <Check className="w-4 h-4" />
+                                              ) : (
+                                                <FileText className="w-4 h-4" />
+                                              )}
+                                            </Button>
                                           </div>
                                         </div>
+                                        {topic.resources && (
+                                          <div className="mt-2 space-y-2">
+                                            {topic.resources.map((resource, idx) => (
+                                              <a
+                                                key={idx}
+                                                href={resource.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center text-blue-400 hover:text-blue-300"
+                                              >
+                                                <Link className="w-4 h-4 mr-2" />
+                                                {resource.type === "video" ? "Watch Video" : "Read Article"}
+                                              </a>
+                                            ))}
+                                          </div>
+                                        )}
+                                        {topic.notes && (
+                                          <div className="mt-2 text-gray-300">
+                                            <strong>Notes:</strong> {topic.notes}
+                                          </div>
+                                        )}
                                       </CardContent>
                                     </Card>
                                   ))}
