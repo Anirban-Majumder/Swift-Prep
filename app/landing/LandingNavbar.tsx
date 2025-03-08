@@ -51,7 +51,7 @@ const LandingNavbar = () => {
 
       {/* Desktop Navbar Links */}
       <div className="hidden md:flex space-x-8 text-xl font-medium">
-        {["features", "how-it-works", "faqs", "get started"].map((item) => (
+        {["features", "how-it-works", "faqs"].map((item) => (
           <a
             key={item}
             href={`#${item}`}
